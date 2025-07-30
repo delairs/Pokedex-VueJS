@@ -21,7 +21,7 @@ pipeline {
                 
                 // Opsional: verifikasi isi folder
                 sh 'ls -la'
-                sh 'cp -rf ./deployment .'
+                sh 'cp -rf ./deployment/* .'
             }
         }
         
