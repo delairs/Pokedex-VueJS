@@ -50,18 +50,20 @@ pipeline {
         }
     }
     post {
-        always {
-            deleteDir()
-        }
-        success {
-            echo "Release Success"
-        }
-        failure {
-            echo "Release Failed"
-        }
-        cleanup {
-            echo "Clean up in post work space"
-            cleanWs()
+        node{
+            always {
+                deleteDir()
+            }
+            success {
+                echo "Release Success"
+            }
+            failure {
+                echo "Release Failed"
+            }
+            cleanup {
+                echo "Clean up in post work space"
+                cleanWs()
+            }
         }
     }
 }
