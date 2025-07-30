@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+
+    environment {
+        gitUrl = 'https://github.com/delairs/Pokedex-VueJS.git'
+        gitBranch = 'main'
+        appsName = 'Pokedex-VueJS'
+        registry = "delairs/$appsName"
+             
+    }
+
+    stages{
+        stage('Clone Repository') {
+            steps {
+                
+                // Perintah 'git' akan meng-clone repository
+                // ke dalam workspace Jenkins
+                git url: gitUrl, branch: gitBranch
+                
+                echo "Clone selesai."
+                
+                // Opsional: verifikasi isi folder
+                sh 'ls -la'
+                sh 'cp -rf ./deployment .'
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                echo "Mulai membuat Docker image..."
+                // Tag image dengan username Docker Hub-mu
+                // Contoh: sh 'docker build -t johndoe/pokedex-app:latest .'
+                sh "docker build -t ${registry}:${BUILD_NUMBER} ."
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    sh """
+                        echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
+                        docker push ${registry}:${BUILD_NUMBER}
+                    """
+                }
+            }
+        }
+    }
+    post {
+        always {
+            deleteDir()
+        }
+        success {
+            echo "Release Success"
+        }
+        failure {
+            echo "Release Failed"
+        }
+        cleanup {
+            echo "Clean up in post work space"
+            cleanWs()
+        }
+    }
+}
