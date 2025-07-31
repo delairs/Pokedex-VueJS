@@ -12,7 +12,7 @@ pipeline {
     environment {
         gitUrl = 'https://github.com/delairs/Pokedex-VueJS.git'
         gitBranch = 'main'
-        appsName = 'Pokedex-VueJS'
+        appsName = 'pokedex-vue'
         registry = "delairs/$appsName"
         dockerCred = credentials('dockerCred')
     }
