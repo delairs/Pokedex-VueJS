@@ -4,4 +4,4 @@ FROM nginx:alpine
 COPY ./index.html /usr/share/nginx/html
 
 # Beritahu Docker bahwa kontainer akan berjalan di port 80
-EXPOSE 90
+EXPOSE 80
