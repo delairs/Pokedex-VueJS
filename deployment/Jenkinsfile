@@ -61,8 +61,8 @@ pipeline {
             steps {
                 script {
                     sh "sed -i 's/latest/$env.BUILD_NUMBER/g' deployment.yaml"
-                    sh "kubectl --kubeconfig=$cobaCluster apply -f deployment.yaml -n prod"
-                    sh "kubectl --kubeconfig=$cobaCluster rollout status deployment -n prod web --timeout=300s"
+                    sh "kubectl --kubeconfig=$clusterProd apply -f deployment.yaml -n prod"
+                    sh "kubectl --kubeconfig=$clusterProd rollout status deployment -n prod web --timeout=300s"
                 }
             }
         }
