@@ -16,7 +16,7 @@ pipeline {
         registry = "delairs/$appsName"
         dockerCred = credentials('dockerCred')
         clusterProd = credentials('clusterProd')
-        cobaCluster = credentials('cobaCluster')
+        // cobaCluster = credentials('cobaCluster')
     }
 
     stages{
