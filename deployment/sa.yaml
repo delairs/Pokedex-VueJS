@@ -2,17 +2,28 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: jenkins-sa
-  namespace: default
+  namespace: prod
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: Role
 metadata:
-  name: jenkins-admin
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
+  name: jenkins-deployer
+  namespace: prod
+rules:
+- apiGroups: ["", "apps", "extensions"]
+  resources: ["deployments", "services", "pods", "configmaps", "secrets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: jenkins-deployer-binding
+  namespace: prod
 subjects:
-  - kind: ServiceAccount
-    name: jenkins-sa
-    namespace: default
+- kind: ServiceAccount
+  name: jenkins-sa
+  namespace: prod
+roleRef:
+  kind: Role
+  name: jenkins-deployer
+  apiGroup: rbac.authorization.k8s.io
