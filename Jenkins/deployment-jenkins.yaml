@@ -35,6 +35,7 @@ spec:
       labels:
         app: jenkins
     spec:
+      serviceAccountName: jenkins-sa   # 👈 disini posisinya bener
       containers:
         - name: jenkins
           image: delairs/jenkins-with-docker:latest
@@ -55,7 +56,6 @@ spec:
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock
-      serviceAccountName: jenkins-sa
 ---
 apiVersion: v1
 kind: Service
