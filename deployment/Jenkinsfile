@@ -15,7 +15,7 @@ pipeline {
         appsName = 'pokedex-vue'
         registry = "delairs/$appsName"
         dockerCred = credentials('dockerCred')
-        clusterProd = credentials('clusterProd')
+        // clusterProd = credentials('clusterProd')
         // cobaCluster = credentials('cobaCluster')
     }
 
@@ -57,15 +57,15 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    sh "sed -i 's/latest/$env.BUILD_NUMBER/g' deployment.yaml"
-                    sh "kubectl --kubeconfig=$clusterProd apply -f deployment.yaml -n prod"
-                    sh "kubectl --kubeconfig=$clusterProd rollout status deployment -n prod web --timeout=300s"
-                }
-            }
-        }
+        // stage('Deploy to Kubernetes') {
+        //     steps {
+        //         script {
+        //             sh "sed -i 's/latest/$env.BUILD_NUMBER/g' deployment.yaml"
+        //             sh "kubectl --kubeconfig=$clusterProd apply -f deployment.yaml -n prod"
+        //             sh "kubectl --kubeconfig=$clusterProd rollout status deployment -n prod web --timeout=300s"
+        //         }
+        //     }
+        // }
     }
     post {
         always {
