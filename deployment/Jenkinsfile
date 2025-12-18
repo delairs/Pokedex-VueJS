@@ -47,15 +47,25 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerCred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh """
-                            echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
-                            docker push ${registry}:${BUILD_NUMBER}
-                        """
-                    }
+                    sh """
+                        docker push ${registry}:${BUILD_NUMBER}
+                    """
                 }
             }
         }
+
+        // stage('Push to Docker Hub') {
+        //     steps {
+        //         script {
+        //             withCredentials([usernamePassword(credentialsId: 'dockerCred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+        //                 sh """
+        //                     echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
+        //                     docker push ${registry}:${BUILD_NUMBER}
+        //                 """
+        //             }
+        //         }
+        //     }
+        // }
 
         // stage('Deploy to Kubernetes') {
         //     steps {
